@@ -1,0 +1,55 @@
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    ports:
+      - "8002:80"
+    depends_on:
+      - backend
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    command: uvicorn main:app --host 0.0.0.0 --port 8000 --proxy-headers --forwarded-allow-ips="*"
+    expose:
+      - "8000"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - ./backend:/app
+      - ${NAS_SHARE_PATH}:/mnt/nas/downloads
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - NAS_PATH=/mnt/nas/downloads
+    depends_on:
+      - redis
+
+  worker:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    command: celery -A worker.celery_app worker --loglevel=info
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
+    volumes:
+      - ./backend:/app
+      - ${NAS_SHARE_PATH}:/mnt/nas/downloads
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - NAS_PATH=/mnt/nas/downloads
+    depends_on:
+      - redis
+      - backend
+
+  redis:
+    image: redis:7-alpine
+    restart: unless-stopped
+    ports:
+      - "6379:6379"

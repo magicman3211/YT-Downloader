@@ -40,7 +40,7 @@ A high-performance, full-stack YouTube video downloader built with **FastAPI**, 
 
 2. Start the application:
    ```bash
-   docker compose up --build
+   docker compose up -d --build
    ```
 
 3. Access the app:

@@ -1,5 +1,5 @@
 # YT-Downloader
-##Built with Antigravity AI
+## Built with Antigravity AI
 
 A high-performance, full-stack YouTube video downloader built with **FastAPI**, **React**, and **Celery**. This application allows users to fetch video metadata, choose quality formats, and track download progress in real-time.
 ## Screenshots

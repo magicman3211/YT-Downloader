@@ -1,6 +1,9 @@
 # YT-Downloader
 
 A high-performance, full-stack YouTube video downloader built with **FastAPI**, **React**, and **Celery**. This application allows users to fetch video metadata, choose quality formats, and track download progress in real-time.
+## Screenshots
+<img src="Screenshot1.png" alt="App Demo" width="500">
+<img src="Screenshot2.png" alt="App Demo2" width="500">
 
 ## 🚀 Features
 
